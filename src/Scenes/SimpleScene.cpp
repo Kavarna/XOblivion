@@ -195,6 +195,7 @@ auto SimpleScene::loadModels() -> void
     m_camera = std::make_unique<FirstPersonCamera>(glm::radians(60.f), (float)4.f/3.f, 0.1f, 1000.f);
 
     m_overlay = std::make_unique<UIOverlay>(m_renderPass);
+    m_overlay->setUICallback(std::bind(&SimpleScene::renderUI, this, std::placeholders::_1));
 }
 
 auto SimpleScene::createFramebuffers(uint32_t totalFrames, uint32_t width, uint32_t height) -> void
@@ -318,3 +319,9 @@ auto SimpleScene::renderOverlay(vk::CommandBuffer cmd) -> void
     m_overlay->render(cmd, width, height);
 }
 
+auto SimpleScene::renderUI(float frameTime) -> void
+{
+    m_overlay->begin("SimpleScene");
+    m_overlay->text(appendToString("SimpleScene: framtime = ", frameTime));
+    m_overlay->end();
+}

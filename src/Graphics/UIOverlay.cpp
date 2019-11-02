@@ -58,12 +58,12 @@ auto UIOverlay::update(float frametime) -> bool
     io.MouseDown[1] = Input::Get()->getKeyState("RIGHT_CLICK") == Input::EKeyState::ePress;
 
     ImGui::NewFrame();
-    ImGui::Begin("Debug");
-    ImGui::Text("Hello from Dear ImGui");
-    ImGui::End();
+    // ImGui::Begin("Debug");
+    // ImGui::Text("Hello from Dear ImGui");
+    // ImGui::End();
 
     if (m_uicallback)
-        m_uicallback();
+        m_uicallback(frametime);
 
     ImGui::Render();
 
@@ -110,7 +110,7 @@ auto UIOverlay::render(vk::CommandBuffer commandBuffer, float width, float heigh
     }
 }
 
-auto UIOverlay::setUICallback(std::function<void()> callback) -> void
+auto UIOverlay::setUICallback(std::function<void(float)> callback) -> void
 {
     m_uicallback = callback;
 }
@@ -288,4 +288,19 @@ auto UIOverlay::update() -> bool
     vmaFlushAllocation(g_allocator, m_indexBuffer.m_memory, 0, m_indexBuffer.m_size);
 
     return updated;
+}
+
+auto UIOverlay::begin(const std::string& name) -> void
+{
+    ImGui::Begin(name.c_str());
+}
+
+auto UIOverlay::end() -> void
+{
+    ImGui::End();
+}
+
+auto UIOverlay::text(const std::string& msg) -> void
+{
+    ImGui::Text(msg.c_str());
 }

@@ -44,7 +44,7 @@ private:
     auto                            cleanupCommandBuffers() -> void;
 
     auto                            renderOverlay(vk::CommandBuffer) -> void;
-
+    auto                            renderUI(float frametime) -> void;
 
 public:
     // TODO: Make wrapper over RenderPass and framebuffers

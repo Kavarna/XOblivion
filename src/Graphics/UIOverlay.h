@@ -19,9 +19,15 @@ public:
     auto                                render(vk::CommandBuffer commandBuffer, float width, float height) -> void;
 
 public:
-    auto                                setUICallback(std::function<void()> callback) -> void;
+    auto                                setUICallback(std::function<void(float)> callback) -> void;
 
     auto                                resize(float width, float height) -> void;
+
+public:
+    auto                                begin(const std::string& name) -> void;
+    auto                                end() -> void;
+    
+    auto                                text(const std::string& msg) -> void;
 
 private:
     auto                                prepareFont() -> void;
@@ -36,7 +42,7 @@ public:
     BufferUtils::Buffer                 m_vertexBuffer;
     BufferUtils::Buffer                 m_indexBuffer;
 
-    std::function<void()>               m_uicallback;
+    std::function<void(float)>          m_uicallback;
 
     // Pipeline
     std::unique_ptr<UIOverlayLayout>    m_pipelineLayout;
